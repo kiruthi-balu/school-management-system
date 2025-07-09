@@ -12,10 +12,4 @@ def view_standards(user: User = Depends(master_access_user), db: Session = Depen
     if not standards:
         return {"status": 0, "message": "No standards found"}
 
-    return {
-        "status": 1,
-        "data": [
-            {"id": std.id, "name": std.name}
-            for std in standards
-        ]
-    }
+    return {"status": 1,"data": [{"id": std.id, "name": std.name}for std in standards]}
