@@ -1,13 +1,8 @@
-from fastapi import APIRouter, Depends, Form,requests
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.models import *
-from app.api import deps
-from app.core.config import settings
-from app.core.security import get_password_hash,verify_password
-from datetime import datetime
 from app.utils import *
-from sqlalchemy import or_
-from app.api.deps import generate_api_token, get_db
+from app.api.deps import  get_db
 from app.schemas.viewprofilleschema import UserProfileOut
 
 

@@ -22,16 +22,9 @@ def list_students_info(token: str = Query(...),page: int = Query(1, ge=1),size: 
 
     results = (
         db.query(User.id.label("user_id"),AcademicYearStudent.id.label("academic_year_student_id"),Standard.name.label("standard"),Section.name.label("section"),User.name.label("student_name"))
-        .join(AcademicYearStudent, AcademicYearStudent.student_id == User.id)
-        .join(AcademicYearClass, AcademicYearStudent.ac_class_id == AcademicYearClass.id)
-        .join(Standard, AcademicYearClass.standard_id == Standard.id)
-        .join(Section, AcademicYearClass.section_id == Section.id)
-        .filter(User.user_type == 6, User.status == 1, AcademicYearStudent.status == 1)
-        .order_by(Standard.name, Section.name, User.name)
-        .offset(offset)
-        .limit(limit)
-        .all()
-    )
+        .join(AcademicYearStudent, AcademicYearStudent.student_id == User.id).join(AcademicYearClass, AcademicYearStudent.ac_class_id == AcademicYearClass.id)
+        .join(Standard, AcademicYearClass.standard_id == Standard.id).join(Section, AcademicYearClass.section_id == Section.id)
+        .filter(User.user_type == 6, User.status == 1, AcademicYearStudent.status == 1).order_by(Standard.name, Section.name, User.name).offset(offset).limit(limit).all())
 
     students = []
     for row in results:

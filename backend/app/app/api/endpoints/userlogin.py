@@ -18,9 +18,7 @@ router = APIRouter()
 @router.post("/user-login/")
 def user_login(loguser:UserLogin, db:Session=Depends(deps.get_db)):
     
-    data = db.query(User).filter(or_(User.name == loguser.user_name,
-                                     User.email == loguser.user_name),
-                                     User.status == 1).first()
+    data = db.query(User).filter(or_(User.name == loguser.user_name,User.email == loguser.user_name),User.status == 1).first()
     
     if not data:
         return {"status":0 ,"Message":"User Not Found"}

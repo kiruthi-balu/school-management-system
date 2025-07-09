@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Form, HTTPException
+from fastapi import APIRouter, Depends, Form
 from sqlalchemy.orm import Session
 from app.api.deps import get_db, get_user_from_token
 from app.models import Standard, User
@@ -8,6 +8,7 @@ router=APIRouter()
 
 @router.post("/delete-standard/")
 def delete_standard(standard_id: int = Form(...),token: str = Form(...),db: Session = Depends(get_db)):
+    
     user = get_user_from_token(token, db)
 
     if user.user_type != 1:

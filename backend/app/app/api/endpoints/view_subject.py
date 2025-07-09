@@ -14,16 +14,8 @@ def get_subjects_by_class(ac_class_id: int = Query(..., description="Academic Ye
     if isinstance(user, dict) and user.get("Status") == 0:
         return user  
 
-    subject_rows = (
-        db.query(Subject.id, Subject.name)
-        .join(SubjectAllocation, Subject.id == SubjectAllocation.subject_id)
-        .filter(
-            SubjectAllocation.ac_class_id == ac_class_id,
-            SubjectAllocation.status == 1
-        )
-        .distinct()
-        .all()
-    )
+    subject_rows = (db.query(Subject.id, Subject.name).join(SubjectAllocation, Subject.id == SubjectAllocation.subject_id)
+        .filter(SubjectAllocation.ac_class_id == ac_class_id,SubjectAllocation.status == 1).distinct().all())
 
     if not subject_rows:
         return {"status": 0, "message": "No subjects found for this class"}

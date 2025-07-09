@@ -13,33 +13,16 @@ def view_marks_by_class(
     user: User = Depends(marks_view_access),
     db: Session = Depends(get_db)
 ):
-    results = (
-        db.query(
-            Mark.id.label("mark_id"),
-            Mark.obtained_mark,
-            Mark.max_mark,
-            Mark.status.label("pass_fail"),
-            AcademicYearStudent.id.label("student_acy_id"),
-            AcademicYearStudent.student_id.label("student_id"),
-            User.name.label("student_name"),
-            Exam.name.label("exam_name"),
-            Subject.name.label("subject_name")
-        )
-        .join(AcademicYearStudent, Mark.acy_stud_id == AcademicYearStudent.id)
-        .join(User, AcademicYearStudent.student_id == User.id)
-        .join(ExamAllocation, Mark.exalloc == ExamAllocation.id)
-        .join(Exam, ExamAllocation.exam_id == Exam.id)
-        .join(SubjectAllocation, Mark.suballoc == SubjectAllocation.id)
-        .join(Subject, SubjectAllocation.subject_id == Subject.id)
-        .filter(AcademicYearStudent.ac_class_id == ac_class_id)
-        .order_by(User.name, Exam.name)
-        .all()
-    )
+    results = (db.query(Mark.id.label("mark_id"),Mark.obtained_mark,Mark.max_mark,Mark.status.label("pass_fail"),AcademicYearStudent.id.label("student_acy_id"),
+            AcademicYearStudent.student_id.label("student_id"),User.name.label("student_name"),Exam.name.label("exam_name"),Subject.name.label("subject_name"))
+        .join(AcademicYearStudent, Mark.acy_stud_id == AcademicYearStudent.id).join(User, AcademicYearStudent.student_id == User.id)
+        .join(ExamAllocation, Mark.exalloc == ExamAllocation.id).join(Exam, ExamAllocation.exam_id == Exam.id)
+        .join(SubjectAllocation, Mark.suballoc == SubjectAllocation.id).join(Subject, SubjectAllocation.subject_id == Subject.id)
+        .filter(AcademicYearStudent.ac_class_id == ac_class_id).order_by(User.name, Exam.name).all())
 
     if not results:
         return {"status": 0, "message": "No marks found for this class"}
 
-    # Transform results
     student_map: Dict[int, Dict] = {}
 
     for row in results:
@@ -60,7 +43,6 @@ def view_marks_by_class(
             "status": row.pass_fail
         })
 
-    # Format final output
     final_output = []
     for student_data in student_map.values():
         exams_list = []

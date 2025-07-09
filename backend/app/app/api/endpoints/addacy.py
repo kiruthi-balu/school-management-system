@@ -8,6 +8,7 @@ router = APIRouter()
 
 @router.post("/add-academic-year/")
 def create_academic_year(name: str = Form(...),user: User = Depends(master_access_user),db: Session = Depends(get_db)):
+    
     existing = db.query(AcademicYear).filter(AcademicYear.name == name, AcademicYear.status != -1).first()
     if existing:
         return {"status": 0, "message": "Academic year already exists"}
