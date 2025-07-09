@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from .endpoints import login, userlogin, createuser,update_user, delete_user, list_user
+from .endpoints import userlogin, createuser,update_user, delete_user, list_user,logout
 from .endpoints import getclass_students, viewprofile
 from .endpoints import addacy,view_academic_year,delete_academic_year,update_ac_year
 from .endpoints import  addacystudent, view_acy_students,update_acy_student,delete_acy_student
@@ -13,13 +13,15 @@ from .endpoints import add_questionpaper
 from .endpoints import addmark,viewmark,individual_mark, class_rank
 from .endpoints import view_subject, addsubject, update_subject,delete_subject
 from .endpoints import add_attendance, class_attendance_percentage, daily_attendance, individual_att_percentage
-from .endpoints import add_timetable
-
+from .endpoints import add_timetable, view_staff_timetable,view_class_timetable,update_timetable,delete_timetable
+from .endpoints import leave_request 
+from .endpoints import fees_crud
 
 api_router = APIRouter()
 
 
 api_router.include_router(userlogin.router, tags=["Login"])
+api_router.include_router(logout.router, tags=["Logout"])
 
 
 
@@ -55,16 +57,16 @@ api_router.include_router(update_subject.router,tags=["Subject"])
 api_router.include_router(delete_subject.router,tags=["Subject"])
 
 
-api_router.include_router(addstandard.router,tags=["Master's"])
-api_router.include_router(update_standard.router,tags=["Master's"])
-api_router.include_router(delete_standard.router,tags=["Master's"])
-api_router.include_router(view_standard.router,tags=["Master's"])
+api_router.include_router(addstandard.router,tags=["Standard"])
+api_router.include_router(update_standard.router,tags=["Standard"])
+api_router.include_router(delete_standard.router,tags=["Standard"])
+api_router.include_router(view_standard.router,tags=["Standard"])
 
 
-api_router.include_router(addsection.router,tags=["Master's"])
-api_router.include_router(update_section.router,tags=["Master's"])
-api_router.include_router(delete_section.router,tags=["Master's"])
-api_router.include_router(view_section.router,tags=["Master's"])
+api_router.include_router(addsection.router,tags=["Section"])
+api_router.include_router(update_section.router,tags=["Section"])
+api_router.include_router(delete_section.router,tags=["Section"])
+api_router.include_router(view_section.router,tags=["Section"])
 
 
 
@@ -80,28 +82,40 @@ api_router.include_router(update_academic_class.router,tags=["Academic Year Clas
 api_router.include_router(delete_academic_class.router,tags=["Academic Year Class"])
 
 
-api_router.include_router(addacystudent.router,tags=["Master's"])
-api_router.include_router(view_acy_students.router,tags=["Master's"])
-api_router.include_router(update_acy_student.router,tags=["Master's"])
-api_router.include_router(delete_acy_student.router,tags=["Master's"])
+api_router.include_router(addacystudent.router,tags=["Academic Year Student"])
+api_router.include_router(view_acy_students.router,tags=["Academic Year Student"])
+api_router.include_router(update_acy_student.router,tags=["Academic Year Student"])
+api_router.include_router(delete_acy_student.router,tags=["Academic Year Student"])
 
 
 
-api_router.include_router(add_exam.router,tags=["Master's"])
-api_router.include_router(view_exam.router,tags=["Master's"])
-api_router.include_router(update_exam.router,tags=["Master's"])
-api_router.include_router(delete_exam.router,tags=["Master's"])
+api_router.include_router(add_exam.router,tags=["Exam"])
+api_router.include_router(view_exam.router,tags=["Exam"])
+api_router.include_router(update_exam.router,tags=["Exam"])
+api_router.include_router(delete_exam.router,tags=["Exam"])
 
 
-api_router.include_router(create_exam_allocation.router,tags=["Master's"])
-api_router.include_router(update_exam_allocation.router,tags=["Master's"])
-api_router.include_router(delete_exam_allocation.router,tags=["Master's"])
+api_router.include_router(create_exam_allocation.router,tags=["Exam Allocation"])
+api_router.include_router(update_exam_allocation.router,tags=["Exam Allocation"])
+api_router.include_router(delete_exam_allocation.router,tags=["Exam Allocation"])
 
 
-api_router.include_router(create_sub_allocation.router,tags=["Master's"])
-api_router.include_router(update_sub_allocation.router,tags=["Master's"])
-api_router.include_router(delete_sub_allocation.router,tags=["Master's"])
-api_router.include_router(add_timetable.router,tags=["Master's"])
+api_router.include_router(create_sub_allocation.router,tags=["Subject Allocation"])
+api_router.include_router(update_sub_allocation.router,tags=["Subject Allocation"])
+api_router.include_router(delete_sub_allocation.router,tags=["Subject Allocation"])
+
+api_router.include_router(add_timetable.router,tags=["Time Table"])
+api_router.include_router(view_class_timetable.router,tags=["Time Table"])
+api_router.include_router(view_staff_timetable.router,tags=["Time Table"])
+api_router.include_router(update_timetable.router,tags=["Time Table"])
+api_router.include_router(delete_timetable.router,tags=["Time Table"])
+
+
+api_router.include_router(leave_request.router,tags=["Leave Request"])
+api_router.include_router(fees_crud.router,tags=["Fees Structure"])
+
+
+
 
 
 
