@@ -17,7 +17,6 @@ class AcademicYearStudent(Base):
     m_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 
-     # Relationships
     academic_class = relationship("AcademicYearClass", back_populates="students")
     student = relationship("User", foreign_keys=[student_id], back_populates="enrolled_classes")
     created_by = relationship("User", foreign_keys=[c_by], back_populates="created_academic_students")

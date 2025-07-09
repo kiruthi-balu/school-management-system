@@ -18,7 +18,6 @@ class Subject(Base):
     m_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 
-    #relation to user table
     create_by = relationship('User', foreign_keys=[c_by], back_populates='created_subjects')
     modify_by = relationship('User', foreign_keys=[m_by], back_populates='modified_subjects')
 

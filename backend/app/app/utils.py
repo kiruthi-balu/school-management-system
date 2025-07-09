@@ -12,6 +12,9 @@ import math
 import os
 import shutil
 import smtplib
+from email.message import EmailMessage
+import aiosmtplib
+from app.core.config import settings
 from email_validator import validate_email, EmailNotValidError 
 import tracemalloc
 
@@ -109,3 +112,24 @@ def checkEmail(email):
         return True
     except EmailNotValidError as e:
         return False
+    
+
+async def send_email(to: str, subject: str, body: str):
+    message = EmailMessage()
+    message["From"] = f"{settings.EMAIL_FROM_NAME} <{settings.EMAIL_FROM}>"
+    message["To"] = to
+    message["Subject"] = subject
+    message.set_content(body)
+
+    try:
+        await aiosmtplib.send(
+            message,
+            hostname=settings.SMTP_HOST,
+            port=settings.SMTP_PORT,
+            username=settings.SMTP_USERNAME,
+            password=settings.SMTP_PASSWORD,
+            start_tls=True,
+        )
+        return {"Status": 1, "Message": "Email sent successfully"}
+    except Exception as e:
+        return {"Status": 0, "Message": f"Email failed: {str(e)}"}

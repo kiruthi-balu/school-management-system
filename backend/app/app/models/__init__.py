@@ -19,3 +19,4 @@ from .scholarship import Scholarship
 from .studentscholarship import StudentScholarship
 from .fees import Fees
 from .feeshistory import FeesHistory
+from .password_reset_otp import PasswordResetOTP

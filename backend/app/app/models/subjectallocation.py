@@ -30,7 +30,6 @@ class SubjectAllocation(Base):
     question_papers = relationship("QuestionPaper", back_populates="subject_allocation")
 
 
-    # Inside SubjectAllocation model
 
     marks = relationship("Mark", back_populates="subject_allocation")
 

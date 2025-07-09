@@ -37,10 +37,8 @@ class User(Base):
     m_by = Column(Integer, ForeignKey('user.id'), comment="Modified by User ID")
     m_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
-    # Token relationship
     token = relationship("Apitoken", back_populates="user_data")
 
-    # Reverse relationships
     created_standards = relationship("Standard", foreign_keys="Standard.c_by", back_populates="cby_standard")
     modified_standards = relationship("Standard", foreign_keys="Standard.m_by", back_populates="mby_standard")
 
@@ -65,20 +63,17 @@ class User(Base):
     modified_academic_students = relationship("AcademicYearStudent", foreign_keys="[AcademicYearStudent.m_by]", back_populates="modified_by")
 
 
-    # Inside User model
 
     student_attendance = relationship("Attendance", foreign_keys="[Attendance.user_id]", back_populates="student")
     created_attendance_entries = relationship("Attendance", foreign_keys="[Attendance.c_by]", back_populates="attendance_creator")
     modified_attendance_entries = relationship("Attendance", foreign_keys="[Attendance.m_by]",back_populates="attendance_modifier")
 
-    # Inside User model
 
     leave_requests = relationship("LeaveRequest", foreign_keys="[LeaveRequest.user_id]", back_populates="student")
     leave_requests_created = relationship("LeaveRequest", foreign_keys="[LeaveRequest.c_by]", back_populates="leave_created_by")
     leave_requests_modified = relationship("LeaveRequest", foreign_keys="[LeaveRequest.m_by]", back_populates="leave_modified_by")
 
 
-    # In User model
 
     exams_created = relationship("Exam", foreign_keys="[Exam.c_by]", back_populates="exam_created_by")
     exams_modified = relationship("Exam", foreign_keys="[Exam.m_by]", back_populates="exam_modified_by")
@@ -94,7 +89,6 @@ class User(Base):
     question_papers_modified = relationship("QuestionPaper", foreign_keys="[QuestionPaper.m_by]", back_populates="modified_by")
 
 
-    # Inside User model
 
     marks_created = relationship("Mark", foreign_keys="[Mark.c_by]", back_populates="created_by")
     marks_modified = relationship("Mark", foreign_keys="[Mark.m_by]", back_populates="modified_by")
@@ -107,7 +101,6 @@ class User(Base):
     fees_modified = relationship("Fees", foreign_keys="[Fees.m_by]", back_populates="modified_by")
 
 
-    # Inside User model
 
     fees_history_created = relationship("FeesHistory", foreign_keys="[FeesHistory.c_by]", back_populates="created_by")
     fees_history_modified = relationship("FeesHistory", foreign_keys="[FeesHistory.m_by]", back_populates="modified_by")
@@ -118,3 +111,5 @@ class User(Base):
 
     student_scholarships_created = relationship("StudentScholarship", foreign_keys="[StudentScholarship.c_by]", back_populates="created_by")
     student_scholarships_modified = relationship("StudentScholarship", foreign_keys="[StudentScholarship.m_by]", back_populates="modified_by")
+
+    reset_otps = relationship("PasswordResetOTP", back_populates="user")

@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from .endpoints import userlogin, createuser,update_user, delete_user, list_user,logout
+from .endpoints import userlogin, createuser,update_user, delete_user, list_user,logout, reset_password
 from .endpoints import getclass_students, viewprofile
 from .endpoints import addacy,view_academic_year,delete_academic_year,update_ac_year
 from .endpoints import  addacystudent, view_acy_students,update_acy_student,delete_acy_student
@@ -15,13 +15,15 @@ from .endpoints import view_subject, addsubject, update_subject,delete_subject
 from .endpoints import add_attendance, class_attendance_percentage, daily_attendance, individual_att_percentage
 from .endpoints import add_timetable, view_staff_timetable,view_class_timetable,update_timetable,delete_timetable
 from .endpoints import leave_request 
-from .endpoints import fees_crud
+from .endpoints import fees_crud, fees_history_crud, questionpaper_crud, scholarship_crud, student_scholarship_crud
 
 api_router = APIRouter()
 
 
 api_router.include_router(userlogin.router, tags=["Login"])
 api_router.include_router(logout.router, tags=["Logout"])
+api_router.include_router(reset_password.router, tags=["Reset Password"])
+
 
 
 
@@ -43,13 +45,13 @@ api_router.include_router(daily_attendance.router,tags=["Attendance"])
 api_router.include_router(individual_att_percentage.router,tags=["Attendance"])
 
 
-api_router.include_router(add_questionpaper.router,tags=["Marks"])
 api_router.include_router(addmark.router,tags=["Marks"])
 api_router.include_router(viewmark.router,tags=["Marks"])
 api_router.include_router(individual_mark.router,tags=["Marks"])
 api_router.include_router(class_rank.router,tags=["Marks"])
 
-
+api_router.include_router(add_questionpaper.router,tags=["Question Paper"])
+api_router.include_router(questionpaper_crud.router,tags=["Question Paper"])
 
 
 api_router.include_router(addsubject.router,tags=["Subject"])
@@ -113,6 +115,13 @@ api_router.include_router(delete_timetable.router,tags=["Time Table"])
 
 api_router.include_router(leave_request.router,tags=["Leave Request"])
 api_router.include_router(fees_crud.router,tags=["Fees Structure"])
+api_router.include_router(fees_history_crud.router,tags=["Fees History"])
+
+
+
+api_router.include_router(scholarship_crud.router,tags=["Scholarship"])
+api_router.include_router(student_scholarship_crud.router,tags=["Scholarship"])
+
 
 
 

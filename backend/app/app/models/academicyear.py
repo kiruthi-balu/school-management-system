@@ -16,7 +16,6 @@ class AcademicYear(Base):
     m_by = Column(Integer, ForeignKey('user.id'), comment="Modified by User ID")
     m_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
-    # relation to user table
     acy_cby = relationship("User", foreign_keys=[c_by], back_populates="created_acy")
     acy_mby = relationship("User", foreign_keys=[m_by], back_populates="modified_acy")
 

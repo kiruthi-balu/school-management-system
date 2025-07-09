@@ -21,7 +21,6 @@ class AcademicYearClass(Base):
     m_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
 
-   # Relationships
     academic_year = relationship("AcademicYear", back_populates="academic_classes")
     standard = relationship("Standard", back_populates="standard_classes")
     section = relationship("Section", back_populates="section_classes")
@@ -30,11 +29,8 @@ class AcademicYearClass(Base):
     modified_by = relationship("User", foreign_keys=[m_by], back_populates="modified_academic_classes")
     students = relationship("AcademicYearStudent", back_populates="academic_class")
 
-    # In AcademicYearClass model
 
     exam_allocations = relationship("ExamAllocation", back_populates="allocated_class")
 
-
-    # In AcademicYearClass model
 
     subject_allocations = relationship("SubjectAllocation", back_populates="academic_class")
