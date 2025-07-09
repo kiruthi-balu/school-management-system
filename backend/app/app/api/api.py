@@ -10,10 +10,10 @@ from .endpoints import add_exam,view_exam,update_exam, delete_exam
 from .endpoints import create_exam_allocation, update_exam_allocation, delete_exam_allocation, view_examallocation
 from .endpoints import create_sub_allocation, update_sub_allocation, delete_sub_allocation, view_subjectallocation
 from .endpoints import add_questionpaper
-from .endpoints import addmark,viewmark,individual_mark
+from .endpoints import addmark,viewmark,individual_mark, class_rank
 from .endpoints import view_subject, addsubject, update_subject,delete_subject
 from .endpoints import add_attendance, class_attendance_percentage, daily_attendance, individual_att_percentage
-
+from .endpoints import add_timetable
 
 
 api_router = APIRouter()
@@ -28,6 +28,26 @@ api_router.include_router(update_user.router,tags=["User"])
 api_router.include_router(delete_user.router,tags=["User"])
 api_router.include_router(viewprofile.router,tags=["User"])
 api_router.include_router(list_user.router,tags=["User"])
+
+api_router.include_router(getclass_students.router,tags=["View"])
+api_router.include_router(view_subject.router,tags=["View"])
+api_router.include_router(view_examallocation.router,tags=["View"])
+api_router.include_router(view_subjectallocation.router,tags=["View"])
+
+
+api_router.include_router(add_attendance.router,tags=["Attendance"])
+api_router.include_router(class_attendance_percentage.router,tags=["Attendance"])
+api_router.include_router(daily_attendance.router,tags=["Attendance"])
+api_router.include_router(individual_att_percentage.router,tags=["Attendance"])
+
+
+api_router.include_router(add_questionpaper.router,tags=["Marks"])
+api_router.include_router(addmark.router,tags=["Marks"])
+api_router.include_router(viewmark.router,tags=["Marks"])
+api_router.include_router(individual_mark.router,tags=["Marks"])
+api_router.include_router(class_rank.router,tags=["Marks"])
+
+
 
 
 api_router.include_router(addsubject.router,tags=["Subject"])
@@ -60,13 +80,6 @@ api_router.include_router(update_academic_class.router,tags=["Academic Year Clas
 api_router.include_router(delete_academic_class.router,tags=["Academic Year Class"])
 
 
-api_router.include_router(add_attendance.router,tags=["Attendance"])
-api_router.include_router(class_attendance_percentage.router,tags=["Attendance"])
-api_router.include_router(daily_attendance.router,tags=["Attendance"])
-api_router.include_router(individual_att_percentage.router,tags=["Attendance"])
-
-
-
 api_router.include_router(addacystudent.router,tags=["Master's"])
 api_router.include_router(view_acy_students.router,tags=["Master's"])
 api_router.include_router(update_acy_student.router,tags=["Master's"])
@@ -88,28 +101,7 @@ api_router.include_router(delete_exam_allocation.router,tags=["Master's"])
 api_router.include_router(create_sub_allocation.router,tags=["Master's"])
 api_router.include_router(update_sub_allocation.router,tags=["Master's"])
 api_router.include_router(delete_sub_allocation.router,tags=["Master's"])
-
-
-
-api_router.include_router(add_questionpaper.router,tags=["Marks"])
-api_router.include_router(addmark.router,tags=["Marks"])
-api_router.include_router(viewmark.router,tags=["Marks"])
-api_router.include_router(individual_mark.router,tags=["Marks"])
-
-
-
-
-api_router.include_router(getclass_students.router,tags=["View"])
-api_router.include_router(view_subject.router,tags=["View"])
-api_router.include_router(view_examallocation.router,tags=["View"])
-api_router.include_router(view_subjectallocation.router,tags=["View"])
-
-
-
-
-
-
-
+api_router.include_router(add_timetable.router,tags=["Master's"])
 
 
 
