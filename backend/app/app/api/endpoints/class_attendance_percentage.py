@@ -5,6 +5,7 @@ from app.models import Attendance, AcademicYearClass, AcademicYearStudent
 from app.api.deps import get_db, master_access_user
 from datetime import date
 
+
 router = APIRouter()
 
 @router.post("/class-attendance-percentage/", description="Entire class all date percentage")

@@ -42,7 +42,7 @@ def generate_api_token(user_id: int, db: Session) -> str:
 
 ALLOWED_ROLES_FOR_MASTER = [1, 2, 3, 4]  # 1:Admin, 2:Principal, 3:Teacher, 4:Office Staff
 
-def get_user_from_token(token: str, db: Session) -> User:
+def get_user_from_token(token: str, db: Session) -> User|dict:
     token_record = db.query(Apitoken).filter(Apitoken.token == token, Apitoken.status == 1).first()
     if not token_record:
         return {"Status":0,"Message":"Invalid or expired token"}
@@ -54,8 +54,10 @@ def get_user_from_token(token: str, db: Session) -> User:
 
     return user
 
-def master_access_user(token: str, db: Session = Depends(get_db)) -> User:
+def master_access_user(token: str, db: Session = Depends(get_db)) :
     user = get_user_from_token(token, db)
+    if isinstance(user, dict):
+        return user
     if user.user_type not in ALLOWED_ROLES_FOR_MASTER:
         return {"Status":0, "Message":"You are not allowed to modify master tables"}
     return user
@@ -82,7 +84,7 @@ def can_update_user(current_user: User, target_user: User, db: Session) -> bool:
     return False  
 
 
-def admin_only_user(token: str, db: Session = Depends(get_db)) -> User:
+def admin_only_user(token: str, db: Session = Depends(get_db)) -> User|dict:
     user = get_user_from_token(token, db)
     if user.user_type != 1:
         return {"Status":0, "Message":"Only Admin is allowed to access this resource."}
@@ -90,7 +92,7 @@ def admin_only_user(token: str, db: Session = Depends(get_db)) -> User:
 
 
 
-def teacher_access_user(token: str, db: Session = Depends(get_db)):
+def teacher_access_user(token: str, db: Session = Depends(get_db)) -> User|dict:
     token_data = db.query(Apitoken).filter(Apitoken.token == token, Apitoken.status == 1).first()
     if not token_data:
         return {"Status":0, "Message":"Invalid or expired token"}
@@ -106,15 +108,16 @@ def teacher_access_user(token: str, db: Session = Depends(get_db)):
     return user
 
 
-def marks_view_access(token: str, db: Session = Depends(get_db)) -> User:
+def marks_view_access(token: str, db: Session = Depends(get_db)) -> User| dict:
+
     token_data = db.query(Apitoken).filter(Apitoken.token == token, Apitoken.status == 1).first()
     if not token_data:
-        return {"Ststus":0,"Message":"Invalid or expired token"}
+        return {"Status":0,"Message":"Invalid or expired token"}
 
     user = db.query(User).filter(User.id == token_data.user_id, User.status == 1).first()
     if not user:
-        return {"Ststus":0,"Message":"User not found"}
-
+        return {"Status":0,"Message":"User not found"}
+    print("program working")
 
     if user.user_type not in ALLOWED_ROLES_FOR_MASTER:
         return {"Ststus":0,"Message":"You are not authorized to view mark sheets"}

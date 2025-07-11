@@ -6,6 +6,8 @@ from app.models import User, AcademicYearStudent, Mark, Exam, Subject, SubjectAl
 
 router = APIRouter()
 
+
+#individual student mark
 @router.post("/student/view-marks/")
 def student_view_marks(token: str = Query(...), db: Session = Depends(get_db)):
 

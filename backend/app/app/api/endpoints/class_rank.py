@@ -6,6 +6,9 @@ from app.models import Mark, ExamAllocation, AcademicYearStudent, User, SubjectA
 
 router = APIRouter()
 
+
+#particular class rank
+
 @router.post("/student-rank/")
 def student_rank(exam_id: int = Query(..., description="Exam ID"),class_id: int = Query(..., description="Academic Year Class ID"),user: User = Depends(marks_view_access),db: Session = Depends(get_db)):
     

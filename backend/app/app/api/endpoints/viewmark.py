@@ -3,16 +3,16 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_db, marks_view_access
 from app.models import Mark,AcademicYearStudent,Exam,ExamAllocation,Subject,SubjectAllocation,User
 
-from typing import Dict
+from typing import Dict,Union
 
 router = APIRouter()
-
+# 2nd route view marks by class
 @router.post("/view-marks-by-class/")
-def view_marks_by_class(
-    ac_class_id: int = Query(..., description="Academic Year Class ID"),
-    user: User = Depends(marks_view_access),
-    db: Session = Depends(get_db)
-):
+def view_marks_by_class(ac_class_id: int = Query(..., description="Academic Year Class ID"),db: Session = Depends(get_db),user: Union[User, Dict] = Depends(marks_view_access)):
+    
+    if isinstance(user, dict) and user.get("Status") == 0:
+        return user
+    
     results = (db.query(Mark.id.label("mark_id"),Mark.obtained_mark,Mark.max_mark,Mark.status.label("pass_fail"),AcademicYearStudent.id.label("student_acy_id"),
             AcademicYearStudent.student_id.label("student_id"),User.name.label("student_name"),Exam.name.label("exam_name"),Subject.name.label("subject_name"))
         .join(AcademicYearStudent, Mark.acy_stud_id == AcademicYearStudent.id).join(User, AcademicYearStudent.student_id == User.id)
